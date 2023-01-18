@@ -17,16 +17,19 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from applic.views import AuthorViewSet, ArticleViewSet, BiographyViewSet, BookViewSet, ArticleAPIView
+from applic.views import AuthorViewSet, ArticleViewSet, BiographyViewSet, BookViewSet, ArticleAPIView, \
+    ArticleListAPIView, ArticleDjangoFilterViewSet
 
 router = DefaultRouter()
 router.register('authors', AuthorViewSet)
 router.register('books', BookViewSet)
-router.register('articles', ArticleViewSet)
+router.register('articles', ArticleViewSet, basename='articles')
+router.register('articles-filter', ArticleDjangoFilterViewSet, basename='articles-filter')
 router.register('biographies', BiographyViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('articles-api/', ArticleAPIView.as_view())
+    path('articles-api/', ArticleAPIView.as_view()),
+    path('articles-list-api/', ArticleListAPIView.as_view())
 ]
