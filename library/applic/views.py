@@ -11,7 +11,7 @@ from .serializers import AuthorSerializer, BiographySerializer, BookSerializer, 
 
 
 class AuthorViewSet(ModelViewSet):
-    renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+    # renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
