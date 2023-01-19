@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import AuthorList from './components/Author.js';
 import BookList from './components/Books.js'
+import AuthorBookList from './components/AuthorBook.js'
 import {HashRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
 // import axios from 'axios';
 
@@ -19,8 +20,8 @@ const NotFound404 = ({ location }) => {
 class App extends React.Component {
     constructor(props) {
         super(props)
-        const author1 = {id: 1, first_name: 'Грин', birth_year: 1880}
-        const author2 = {id: 2, first_name: 'Пушкин', birth_year: 1799}
+        const author1 = {id: 1, first_name: 'Александр', last_name: 'Грин', birth_year: 1880}
+        const author2 = {id: 2, first_name: 'Александр', last_name: 'Пушкин', birth_year: 1799}
         const authors = [author1, author2]
         const book1 = {id: 1, name: 'Алые паруса', author: author1}
         const book2 = {id: 2, name: 'Золотая цепь', author: author1}
@@ -66,6 +67,9 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path='/' component={() => <AuthorList items={this.state.authors} />} />
                         <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+                        <Route path="/author/:id">
+                            <AuthorBookList items={this.state.books} />
+                        </Route>
                         <Redirect from='/authors' to='/' />
                         <Route component={NotFound404}/>
                     </Switch>
