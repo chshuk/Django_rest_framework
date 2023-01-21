@@ -1,37 +1,27 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 
-const AuthorItem = ({author}) => {
-    return(
+const AuthorItem = ({item}) => {
+    return (
         <tr>
-            <td>
-                {author.first_name}
-            </td>
-            <td>
-                {author.last_name}
-            </td>
-            <td>
-                {author.birth_year}
-            </td>
+        <td><Link to={`author/${item.id}`}> {item.id} </Link></td>
+        <td> {item.first_name} {item.last_name} </td>
+        <td> {item.birth_year} </td>
         </tr>
     )
 }
 
-const AuthorList = ({authors}) => {
+const AuthorList = ({items}) => {
     return (
         <table>
-            <th>
-                First name
-            </th>
-            <th>
-                Last Name
-            </th>
-            <th>
-                Birth year
-            </th>
-            {authors.map((author) => <AuthorItem author={author} />)}
+        <tr>
+        <th> ID </th>
+        <th> Name </th>
+        <th> Birth year </th>
+        </tr>
+        {items.map((item) => <AuthorItem item={item} />)}
         </table>
     )
 }
-
 export default AuthorList
