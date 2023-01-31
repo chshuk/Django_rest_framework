@@ -18,10 +18,8 @@ class Biography(models.Model):
 
 
 class Book(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=64, unique=True)
     authors = models.ManyToManyField(Author)
 
-
-class Article(models.Model):
-    name = models.CharField(max_length=64)
-    author = models.ForeignKey(Author, models.PROTECT)
+    def __str__(self):
+        return self.name
