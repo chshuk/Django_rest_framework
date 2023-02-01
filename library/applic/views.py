@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 from django_filters import rest_framework as filters
 from .models import Author, Biography, Book
 from .serializers import AuthorSerializer, BiographySerializer, BookSerializer
+from rest_framework import permissions
 
 
 class AuthorViewSet(ModelViewSet):
@@ -21,5 +22,6 @@ class BiographyViewSet(ModelViewSet):
 
 
 class BookViewSet(ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
