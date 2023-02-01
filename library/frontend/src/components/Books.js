@@ -6,7 +6,7 @@ const BookItem = ({item}) => {
         <tr>
         <td>{item.id}</td>
         <td>{item.name}</td>
-        <td>{item.author.first_name}</td>
+        <td>'Автор'</td>
         </tr>
     )
 }
