@@ -34,3 +34,16 @@ class TestAuthorViewSet(TestCase):
         view = AuthorViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_admin(self):
+        factory = APIRequestFactory()
+        request = factory.post('/api/authors', {
+            'first_name': 'Александр',
+            'last_name': 'Пушкин',
+            'birth_year': 1799
+        })
+        admin = User.objects.create_superuser('admin', 'admin@admin.com', '1111')
+        force_authenticate(request, admin)
+        view = AuthorViewSet.as_view({'post': 'create'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
