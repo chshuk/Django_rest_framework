@@ -8,7 +8,7 @@ class AuthorSerializer(HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class BiographySerializer(HyperlinkedModelSerializer):
+class BiographySerializer(ModelSerializer):
     class Meta:
         model = Biography
         fields = ['text', 'author']

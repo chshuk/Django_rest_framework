@@ -1,10 +1,12 @@
 from django.test import TestCase
 import json
+
+from mixer.backend.django import mixer
 from rest_framework import status
 from rest_framework.test import APIRequestFactory, APIClient, APISimpleTestCase, APITestCase, force_authenticate
 from django.contrib.auth.models import User
 from .views import AuthorViewSet
-from .models import Author, Book
+from .models import Author, Book, Biography
 
 
 # Create your tests here.
@@ -103,3 +105,14 @@ class TestBookViewSet(APITestCase):
         print(response.json)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(book.name, 'Руслан и Людмила')
+
+    def test_edit_mixer(self):
+        biography = mixer.blend(Biography)
+        admin = User.objects.create_superuser('admin', 'admin@admin.com', '1111')
+        self.client.login(username='admin', password='1111')
+        response = self.client.put(f'/api/biographies/{biography.id}/',
+                                   {'text': 'Руслан и Людмила',
+                                    'author': biography.author.id})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        biography = Biography.objects.get(id=biography.id)
+        self.assertEqual(biography.text, 'Руслан и Людмила')
