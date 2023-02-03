@@ -77,3 +77,29 @@ class TestAuthorViewSet(TestCase):
         client.logout()
 
 
+class TestMath(APISimpleTestCase):
+    def test_sqrt(self):
+        import math
+        self.assertEqual(math.sqrt(4), 2)
+
+
+class TestBookViewSet(APITestCase):
+    def test_get_list(self):
+        response = self.client.get('/api/biographies/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_edit_admin(self):
+        author = Author.objects.create(first_name='Alexander', last_name='Пушкин', birth_year=1799)
+
+        book = Book.objects.create(name='Пиковая дама')
+        book.authors.add(author)
+        book.save()
+        admin = User.objects.create_superuser('admin', 'admin@admin.com', '1111')
+        self.client.login(username='admin', password='1111')
+        response = self.client.put(f'/api/books/{book.id}/',
+                                   {'name': 'Руслан и Людмила',
+                                    'authors': author.id})
+        book = Book.objects.get(id=book.id)
+        print(response.json)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(book.name, 'Руслан и Людмила')

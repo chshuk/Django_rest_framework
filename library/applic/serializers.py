@@ -14,7 +14,7 @@ class BiographySerializer(HyperlinkedModelSerializer):
         fields = ['text', 'author']
 
 
-class BookSerializer(HyperlinkedModelSerializer):
+class BookSerializer(ModelSerializer):
     # author = AuthorSerializer()
 
     class Meta:
