@@ -47,3 +47,33 @@ class TestAuthorViewSet(TestCase):
         view = AuthorViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_get_detail(self):
+        author = Author.objects.create(first_name='Лев', last_name='Толстой', birth_year=1828)
+        client = APIClient()
+        response = client.get(f'/api/authors/{author.id}/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_edit_guest(self):
+        author = Author.objects.create(first_name='Лев', last_name='Толстой', birth_year=1828)
+        client = APIClient()
+        response = client.put(f'/api/authors/{author.id}/',
+                              {'first_name': 'Александр', 'last_name': 'Пушкин', 'birth_year': 1799})
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_edit_admin(self):
+        author = Author.objects.create(first_name='Лев', last_name='Толстой', birth_year=1828)
+        client = APIClient()
+        admin = User.objects.create_superuser('admin', 'admin@admin.com', '1111')
+        client.login(username='admin', password='1111')
+
+        response = client.put(f'/api/authors/{author.id}/',
+                              {'first_name': 'Lev', 'last_name': 'Tolstoy', 'birth_year': 1910})
+        author = Author.objects.get(pk=author.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(author.first_name, 'Lev')
+        self.assertEqual(author.last_name, 'Tolstoy')
+        self.assertEqual(author.birth_year, 1910)
+        client.logout()
+
+
