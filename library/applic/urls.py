@@ -4,5 +4,5 @@ from .views import MyAPIView
 
 app_name = 'applic'
 urlpatterns = [
-    path('', MyAPIView.as_view({'get': "list"}))
+    path('', MyAPIView.as_view())
 ]

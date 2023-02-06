@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters import rest_framework as filters
 from .models import Author, Biography, Book
-from .serializers import AuthorSerializer, BiographySerializer, BookSerializer
-from rest_framework import permissions
+from .serializers import AuthorSerializer, BiographySerializer, BookSerializer, AuthorSerializer2
+from rest_framework import permissions, generics
 
 
 class AuthorViewSet(ModelViewSet):
@@ -27,14 +27,11 @@ class BookViewSet(ModelViewSet):
     serializer_class = BookSerializer
 
 
-class MyAPIView(ViewSet):
+class MyAPIView(generics.ListAPIView):
+    queryset = Author.objects.all()
+    serializer = AuthorSerializer
 
-    def list(self, request):
-        print(request.version)
-        authors = Author.objects.all()
-        serializer = AuthorSerializer(authors, many=True)
-        return  Response(serializer.data)
-
-    @action(detail=False, methods=['get'])
-    def new_data(self, request):
-        return Response({'data': 'NEW data'})
+    def get_serializer_class(self):
+        if self.request.version == '1':
+            return AuthorSerializer
+        return AuthorSerializer2
