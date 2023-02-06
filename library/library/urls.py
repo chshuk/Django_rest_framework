@@ -30,6 +30,7 @@ urlpatterns = [
     # path('api/', include(router.urls)),
     # path('api-token-auth/', views.obtain_auth_token),
     # re_path(r'^myapi/(?P<version>\d)/authors/$', MyAPIView.as_view({'get': 'list'}))
-    path('api/1/authors', include('applic.urls', namespace='1')),
-    path('api/2/authors', include('applic.urls', namespace='2'))
+    # path('api/1/authors', include('applic.urls', namespace='1')),
+    # path('api/2/authors', include('applic.urls', namespace='2'))
+    path('api/authors', MyAPIView.as_view())
 ]
