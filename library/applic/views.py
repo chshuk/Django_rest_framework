@@ -25,3 +25,16 @@ class BookViewSet(ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+class MyAPIView(ViewSet):
+
+    def list(self, request):
+        print(request.version)
+        authors = Author.objects.all()
+        serializer = AuthorSerializer(authors, many=True)
+        return  Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def new_data(self, request):
+        return Response({'data': 'NEW data'})
