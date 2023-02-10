@@ -40,4 +40,26 @@ class Query(graphene.ObjectType):
         return books
 
 
-schema = graphene.Schema(query=Query)
+class AuthorMutation(graphene.Mutation):
+    class Arguments:
+        first_name = graphene.String()
+        last_name = graphene.String()
+        birth_year = graphene.Int()\
+
+    author = graphene.Field(AuthorType)
+
+    @classmethod
+    def mutate(cls, root, info, id, first_name, last_name, birth_year):
+        author = Author.objects.get(pk=id)
+        author.first_name = first_name
+        author.last_name = last_name
+        author.birth_year = birth_year
+        author.save()
+        return AuthorMutation(author=author)
+
+
+class Mutation(graphene.ObjectType):
+    update_author = AuthorMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
