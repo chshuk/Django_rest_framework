@@ -21,7 +21,7 @@ class BiographySerializer(ModelSerializer):
 
 
 class BookSerializer(ModelSerializer):
-    # author = AuthorSerializer()
+    # authors = AuthorSerializer()
 
     class Meta:
         model = Book
