@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'applic',
     'rest_framework.authtoken',
     'drf_yasg',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -151,4 +152,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
+}
+
+GRAPHENE = {
+    'SCHEMA': 'library.schema.schema'
 }
