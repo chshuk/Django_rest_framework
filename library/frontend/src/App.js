@@ -110,6 +110,14 @@ class App extends React.Component {
         this.get_token_from_storage()
     }
 
+    deleteBook(id) {
+        const headers = this.get_headers()
+        axios.delete('http://127.0.0.1:8000/api/books/${id}', {headers, headers})
+            .then(response => {
+                this.setState({books: this.state.books.filter((item)=>item.id !==id)})
+            }).catch(error => console.log(error))
+    }
+
     render () {
         return (
             <div className="App">
@@ -133,7 +141,9 @@ class App extends React.Component {
                     </nav>
                     <Switch>
                         <Route exact path='/' component={() => <AuthorList items={this.state.authors} />} />
-                        <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+                        <Route exact path='/books/create' component={() => <BookForm />}/>
+                        <Route exact path='/books' component={() => <BookList
+                            items={this.state.books} deleteBook={(id)=>this.deleteBook(id)} />} />
                         <Route exact path='/login' component={() => <LoginForm
                                 get_token={(username, password) => this.get_token(username, password)} />} />
                         <Route path="/author/:id">
