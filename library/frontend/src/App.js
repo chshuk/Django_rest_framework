@@ -111,13 +111,13 @@ class App extends React.Component {
         this.get_token_from_storage()
     }
 
-//    deleteBook(id) {
-//        const headers = this.get_headers()
-//        axios.delete("http://127.0.0.1:8000/api/books/${id}", {headers})
-//            .then(response => {
-//                this.setState({books: this.state.books.filter((item)=>item.id !==id)})
-//            }).catch(error => console.log(error))
-//    }
+    deleteBook(id) {
+        const headers = this.get_headers()
+        axios.delete("http://127.0.0.1:8000/api/books/${id}", {headers})
+            .then(response => {
+                this.setState({books: this.state.books.filter((item)=>item.id !==id)})
+            }).catch(error => console.log(error))
+    }
 
     createBook(name, author) {
         const headers = this.get_headers()
