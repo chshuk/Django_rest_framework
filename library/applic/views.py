@@ -22,7 +22,7 @@ class BiographyViewSet(ModelViewSet):
 
 
 class BookViewSet(ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
